@@ -11,6 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import javax.transaction.Transactional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -18,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @Slf4j
+@Transactional
 class PersonControllerTest {
     @Autowired
     private PersonController personController;
@@ -26,7 +29,7 @@ class PersonControllerTest {
 
     private MockMvc mockMvc;
 
-    // 매 테스트마다 먼저 실행됨됨
+    // 매 테스트마다 먼저 실행됨
    @BeforeEach
     void beforeEach() {
         mockMvc = MockMvcBuilders.standaloneSetup(personController).build();
