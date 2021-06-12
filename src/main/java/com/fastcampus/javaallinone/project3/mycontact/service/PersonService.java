@@ -2,6 +2,7 @@ package com.fastcampus.javaallinone.project3.mycontact.service;
 
 import com.fastcampus.javaallinone.project3.mycontact.controller.dto.PersonDto;
 import com.fastcampus.javaallinone.project3.mycontact.domain.Person;
+import com.fastcampus.javaallinone.project3.mycontact.domain.dto.Birthday;
 import com.fastcampus.javaallinone.project3.mycontact.exception.PersonNotFoundException;
 import com.fastcampus.javaallinone.project3.mycontact.exception.RenameIsNotPermittedException;
 import com.fastcampus.javaallinone.project3.mycontact.repository.PersonRepository;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -71,5 +74,19 @@ public class PersonService {
 
         personRepository.save(person);
 
+    }
+
+    public List<Person> getBirthdayFriends(LocalDate today) {
+        Birthday birthdayToday = Birthday.of(today);
+        Integer month = birthdayToday.getMonthOfBirthday();
+        Integer day = birthdayToday.getDayOfBirthday();
+
+        List<Person> todayList = personRepository.findByBirthday(month, day);
+        List<Person> tomorrowList = personRepository.findByBirthday(month, day+1);
+        List<Person> resultList = new ArrayList<>();
+        resultList.addAll(todayList);
+        resultList.addAll(tomorrowList);
+
+        return resultList;
     }
 }

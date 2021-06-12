@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 @RequestMapping(value = "/api/person")
@@ -32,9 +33,16 @@ public class PersonController {
         return personService.getAll(pageable);
     }
 
-    @GetMapping("/{id}")
-    public Person getPerson(@PathVariable Long id) {
-        return personService.getPerson(id);
+//    @GetMapping("/{id}")
+//    public Person getPerson(@PathVariable Long id) {
+//        return personService.getPerson(id);
+//    }
+
+    @GetMapping("/birthday-friends")
+    public List<Person> getBirthdayFriends() {
+        LocalDate today = LocalDate.now();
+
+        return personService.getBirthdayFriends(today);
     }
 
     @PostMapping
